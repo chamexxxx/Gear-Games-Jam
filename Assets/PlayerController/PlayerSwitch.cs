@@ -10,12 +10,7 @@ public class PlayerSwitch : MonoBehaviour
 {
     public int index;
 
-    [ReadOnly]
-    [SerializeField]
     private PlayerController playerController;
-    
-    [ReadOnly]
-    [SerializeField]
     private List<GameObject> hierarchy;
 
     private void Awake()
@@ -25,8 +20,8 @@ public class PlayerSwitch : MonoBehaviour
 
     private void Start()
     {
-        hierarchy.Add(GetComponentInChildren<CinemachineBrain>().gameObject);
-        hierarchy.Add(GetComponentInChildren<CinemachineCamera>().gameObject);
+        // hierarchy.Add(GetComponentInChildren<CinemachineBrain>().gameObject);
+        // hierarchy.Add(GetComponentInChildren<CinemachineCamera>().gameObject);
         var playerSwitch = FindAnyObjectByType<SwitchManager>();
         if (playerSwitch is null)
         {

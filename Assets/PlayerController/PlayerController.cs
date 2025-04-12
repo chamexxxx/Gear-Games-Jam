@@ -1,4 +1,5 @@
 using System;
+using Unity.Cinemachine;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -6,7 +7,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private CharacterController _characterController;
-    [SerializeField] private Camera _playerCamera;
+    private Camera _playerCamera;
 
     public float runAcceleration = 0.25f;
     public float runSpeed = 4f;
@@ -20,6 +21,11 @@ public class PlayerController : MonoBehaviour
     private PlayerInput _playerInput;
     private Vector2 _cameraRotation = Vector2.zero;
     private Vector2 _playerTargetRotation = Vector2.zero;
+
+    private void Awake()
+    {
+        _playerCamera = FindAnyObjectByType<Camera>();
+    }
 
     private void Start()
     {
