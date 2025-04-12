@@ -108,6 +108,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Extra"",
+                    ""type"": ""Button"",
+                    ""id"": ""3ded22de-1d92-4e38-bd18-44fa81e401aa"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -176,6 +185,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""Look"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""877004bd-7b05-486c-866f-aea564420007"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Extra"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -186,6 +206,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_PlayerLocomotion = asset.FindActionMap("PlayerLocomotion", throwIfNotFound: true);
         m_PlayerLocomotion_Movement = m_PlayerLocomotion.FindAction("Movement", throwIfNotFound: true);
         m_PlayerLocomotion_Look = m_PlayerLocomotion.FindAction("Look", throwIfNotFound: true);
+        m_PlayerLocomotion_Extra = m_PlayerLocomotion.FindAction("Extra", throwIfNotFound: true);
     }
 
     ~@PlayerControls()
@@ -268,6 +289,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private List<IPlayerLocomotionActions> m_PlayerLocomotionActionsCallbackInterfaces = new List<IPlayerLocomotionActions>();
     private readonly InputAction m_PlayerLocomotion_Movement;
     private readonly InputAction m_PlayerLocomotion_Look;
+    private readonly InputAction m_PlayerLocomotion_Extra;
     /// <summary>
     /// Provides access to input actions defined in input action map "PlayerLocomotion".
     /// </summary>
@@ -287,6 +309,10 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "PlayerLocomotion/Look".
         /// </summary>
         public InputAction @Look => m_Wrapper.m_PlayerLocomotion_Look;
+        /// <summary>
+        /// Provides access to the underlying input action "PlayerLocomotion/Extra".
+        /// </summary>
+        public InputAction @Extra => m_Wrapper.m_PlayerLocomotion_Extra;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -319,6 +345,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Look.started += instance.OnLook;
             @Look.performed += instance.OnLook;
             @Look.canceled += instance.OnLook;
+            @Extra.started += instance.OnExtra;
+            @Extra.performed += instance.OnExtra;
+            @Extra.canceled += instance.OnExtra;
         }
 
         /// <summary>
@@ -336,6 +365,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Look.started -= instance.OnLook;
             @Look.performed -= instance.OnLook;
             @Look.canceled -= instance.OnLook;
+            @Extra.started -= instance.OnExtra;
+            @Extra.performed -= instance.OnExtra;
+            @Extra.canceled -= instance.OnExtra;
         }
 
         /// <summary>
@@ -390,5 +422,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnLook(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Extra" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnExtra(InputAction.CallbackContext context);
     }
 }
