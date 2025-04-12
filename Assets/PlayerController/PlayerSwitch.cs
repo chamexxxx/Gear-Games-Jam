@@ -11,7 +11,6 @@ public class PlayerSwitch : MonoBehaviour
     public int index;
 
     private PlayerController playerController;
-    private List<GameObject> hierarchy;
 
     private void Awake()
     {
@@ -20,8 +19,6 @@ public class PlayerSwitch : MonoBehaviour
 
     private void Start()
     {
-        // hierarchy.Add(GetComponentInChildren<CinemachineBrain>().gameObject);
-        // hierarchy.Add(GetComponentInChildren<CinemachineCamera>().gameObject);
         var playerSwitch = FindAnyObjectByType<SwitchManager>();
         if (playerSwitch is null)
         {
@@ -38,13 +35,11 @@ public class PlayerSwitch : MonoBehaviour
     {
         playerController.enabled = true;
         GetComponent<CharacterController>().enabled = true;
-        hierarchy.ForEach(h => h.SetActive(true));
     }
 
     public void PowerOff()
     {
         playerController.enabled = false;
         GetComponent<CharacterController>().enabled = false;
-        hierarchy.ForEach(h => h.SetActive(false));
     }
 }
