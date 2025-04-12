@@ -21,9 +21,17 @@ public class PlayerController : MonoBehaviour
     private Vector2 _cameraRotation = Vector2.zero;
     private Vector2 _playerTargetRotation = Vector2.zero;
 
-    private void Awake()
+    private void Start()
     {
-        _playerInput = GetComponent<PlayerInput>();
+        var playerSwitch = FindAnyObjectByType<SwitchManager>();
+        if (playerSwitch is null)
+        {
+            Debug.LogError("No SwitchManager registered");
+        }
+        else
+        {
+            _playerInput = playerSwitch.GetPlayerInput();
+        }
     }
 
     private void Update()
@@ -56,4 +64,5 @@ public class PlayerController : MonoBehaviour
         
         _playerCamera.transform.rotation = quaternion.Euler(_cameraRotation.y, _cameraRotation.x, 0f);
     }
+    
 }

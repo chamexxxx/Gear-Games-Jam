@@ -2,12 +2,13 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[DefaultExecutionOrder(-2)]
+[DefaultExecutionOrder(-3)]
 public class PlayerInput : MonoBehaviour, PlayerControls.IPlayerLocomotionActions
 {
     public PlayerControls playerControls;
     public Vector2 movementInput;
     public Vector2 lookInput;
+    public event Action OnSwitchPlayer;
 
     private void OnEnable()
     {
@@ -32,5 +33,10 @@ public class PlayerInput : MonoBehaviour, PlayerControls.IPlayerLocomotionAction
     public void OnLook(InputAction.CallbackContext context)
     {
         lookInput = context.ReadValue<Vector2>();
+    }
+
+    public void OnExtra(InputAction.CallbackContext context)
+    {
+        OnSwitchPlayer?.Invoke();
     }
 }
