@@ -1,15 +1,25 @@
 using System;
+using Common;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace Player
 {
+    [RequireComponent(typeof(GameManager))]
     public class PlayerInput : MonoBehaviour, PlayerControls.IPlayerLocomotionActions
     {
         public PlayerControls playerControls;
         public Vector2 movementInput;
         public Vector2 lookInput;
+        
+        private GameManager _gameManager;
+        
         public event Action OnSwitchPlayer;
+
+        private void Start()
+        {
+            _gameManager = gameObject.GetComponent<GameManager>();
+        }
 
         private void OnEnable()
         {
@@ -39,6 +49,11 @@ namespace Player
         public void OnExtra(InputAction.CallbackContext context)
         {
             OnSwitchPlayer?.Invoke();
+        }
+
+        public void OnInteract(InputAction.CallbackContext context)
+        {
+            _gameManager.HandleInteract();
         }
     }
 }

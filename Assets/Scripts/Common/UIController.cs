@@ -1,5 +1,6 @@
 ﻿using TransmigrationSystem;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Common
@@ -7,8 +8,8 @@ namespace Common
     public class UIController : MonoBehaviour
     {
         [SerializeField] private Camera _playerCamera;
-        [SerializeField] private float _maxStudyDistance = 5f;
-        [SerializeField] private LayerMask _studyableLayer;
+        [SerializeField] private float _maxInteractDistance = 5f;
+        [SerializeField] private LayerMask _interactiveLayer;
 
         [SerializeField] private InteractiveObject _currentObject;
 
@@ -16,6 +17,9 @@ namespace Common
         [SerializeField] private Color _highlightColor = Color.green;
         
         private Color _originalDotColor;
+
+        public InteractiveObject CurrentObject => _currentObject;
+        
         
         private void Start()
         {
@@ -37,7 +41,7 @@ namespace Common
             Ray ray = _playerCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f)); // Центр экрана
             RaycastHit hit;
     
-            if (Physics.Raycast(ray, out hit, _maxStudyDistance, _studyableLayer))
+            if (Physics.Raycast(ray, out hit, _maxInteractDistance, _interactiveLayer))
             {
                 InteractiveObject interactive = hit.collider.GetComponent<InteractiveObject>();
                 if (interactive != null)
