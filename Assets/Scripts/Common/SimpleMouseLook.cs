@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace SpellSystem
+namespace Common
 {
     public class FreeCameraMouseLook : MonoBehaviour
     {

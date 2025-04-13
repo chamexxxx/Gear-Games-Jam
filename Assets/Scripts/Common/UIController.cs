@@ -1,7 +1,8 @@
-﻿using UnityEngine;
+﻿using TransmigrationSystem;
+using UnityEngine;
 using UnityEngine.UI;
 
-namespace ItemsSystem
+namespace Common
 {
     public class UIController : MonoBehaviour
     {

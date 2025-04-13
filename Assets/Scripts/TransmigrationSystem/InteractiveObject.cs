@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace ItemsSystem
+namespace TransmigrationSystem
 {
     public class InteractiveObject : MonoBehaviour
     {
@@ -16,6 +16,5 @@ namespace ItemsSystem
             Active = activate;
             _rigidbody.isKinematic = !activate;
         }
-
     }
 }
