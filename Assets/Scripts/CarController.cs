@@ -6,15 +6,12 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class CarController : MonoBehaviour
 {
-    [Header("References")]
-    public Transform frontAxle; // Объект, включающий оба передних колеса
-    public Transform rearAxle;  // Объект, включающий оба задних колеса
-
     [Header("Settings")]
-    public float moveForce = 150f;
-    public float turnSpeed = 50f;
-    public float maxTurnAngle = 10f; // Максимальный угол поворота оси
-    public float wheelRotationSpeed = 360f; // Скорость вращения колёс
+    public float moveForce = 4;
+    public float turnTorque = 45.5f;
+    public float minSpeedForTurning = 0f;  // Минимальная скорость, при которой начинается поворот
+    public float maxAngularVelocity = 2f;    // Ограничение на вращение (в рад/сек)
+    public float maxSpeed = 1f;              // Максимальная линейная скорость
 
     private Rigidbody rb;
     private PlayerInput _playerInput;
@@ -22,65 +19,52 @@ public class CarController : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        rb.maxAngularVelocity = maxAngularVelocity; // ограничим вращение
     }
 
     private void Start()
     {
-        var playerSwitch = FindAnyObjectByType<GameManager>();
-        if (playerSwitch is null)
+        var gameManager = FindAnyObjectByType<GameManager>();
+        if (gameManager is null)
         {
-            Debug.LogError("No SwitchManager registered");
+            Debug.LogError("No GameManager found");
         }
         else
         {
-            _playerInput = playerSwitch.GetPlayerInput();
+            _playerInput = gameManager.GetPlayerInput();
         }
     }
 
     private void FixedUpdate()
     {
+        if (_playerInput == null) return;
+
         Vector2 moveInput = _playerInput.movementInput;
+        float forwardInput = moveInput.y;
+        float turnInput = moveInput.x;
 
-        // Направление движения
-        float forwardAmount = moveInput.y;
-        float turnAmount = moveInput.x;
+        // Расчёт текущей скорости и направления движения
+        Vector3 flatVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
+        float speed = flatVelocity.magnitude;
+        float movementDirection = Vector3.Dot(flatVelocity, -transform.right); // >0 — движется вперёд, <0 — назад
 
-        // Движение
-        Vector3 force = -transform.right * forwardAmount * moveForce * Time.fixedDeltaTime;
-        rb.AddForce(force);
-
-        // Поворот
-        float turn = turnAmount * turnSpeed * Time.fixedDeltaTime;
-        if (Mathf.Abs(forwardAmount) > 0.1f)
+        // Движение — только если не превышена максимальная скорость
+        if (speed < maxSpeed)
         {
-            Quaternion turnRotation = Quaternion.Euler(0f, turn, 0f);
-            rb.MoveRotation(rb.rotation * turnRotation);
+            Vector3 force = -transform.right * forwardInput * moveForce;
+            rb.AddForce(force);
         }
 
-        // Визуальный поворот передней оси (для эффекта)
-        // if (frontAxle != null)
-        // {
-        //     float steerAngle = maxTurnAngle * turnAmount;
-        //     frontAxle.localRotation = Quaternion.Euler(0f, steerAngle, 0f);
-        // }
+        // Поворот — только если машина движется хотя бы чуть-чуть
+        if (speed > minSpeedForTurning && Mathf.Abs(turnInput) > 0.01f)
+        {
+            float direction = movementDirection >= 0f ? 1f : -1f;
 
-        // Вращение осей (визуальный эффект)
-        // RotateAxles(forwardAmount);
+            // Масштабируем поворот по скорости
+            float speedFactor = Mathf.Clamp01(speed / 10f);
+            float torqueAmount = turnInput * turnTorque * direction * speedFactor;
+
+            rb.AddTorque(Vector3.up * torqueAmount, ForceMode.VelocityChange);
+        }
     }
-
-    // private void RotateAxles(float forwardAmount)
-    // {
-    //     float rotation = forwardAmount * wheelRotationSpeed * Time.fixedDeltaTime;
-    //
-    //     if (rearAxle != null)
-    //     {
-    //         rearAxle.Rotate(rearAxle.right, rotation, Space.World); // вращаем по локальной оси X в глобальном пространстве
-    //     }
-    //
-    //     if (frontAxle != null)
-    //     {
-    //         frontAxle.Rotate(frontAxle.right, rotation, Space.World);
-    //     }
-    // }
-
 }

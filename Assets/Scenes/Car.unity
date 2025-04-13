@@ -17638,12 +17638,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e4e3acd9b88a59458d5225a549e3061, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frontAxle: {fileID: 1839954217210953615}
-  rearAxle: {fileID: 235530857563314502}
-  moveForce: 150
-  turnSpeed: 50
-  maxTurnAngle: 30
-  wheelRotationSpeed: 360
+  moveForce: 4
+  turnTorque: 45.4
+  minSpeedForTurning: 0
+  maxAngularVelocity: 2
+  maxSpeed: 1
 --- !u!1 &2784535757208790947
 GameObject:
   m_ObjectHideFlags: 0
