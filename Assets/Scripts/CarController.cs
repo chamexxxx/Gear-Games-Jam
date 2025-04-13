@@ -7,11 +7,16 @@ using UnityEngine;
 public class CarController : MonoBehaviour
 {
     [Header("Settings")]
-    public float moveForce = 4;
-    public float turnTorque = 45.5f;
-    public float minSpeedForTurning = 0f;  // Минимальная скорость, при которой начинается поворот
+    public float moveForce = 150f;
+    public float turnTorque = 5f;
+    public float minSpeedForTurning = 0.5f;  // Минимальная скорость, при которой начинается поворот
     public float maxAngularVelocity = 2f;    // Ограничение на вращение (в рад/сек)
     public float maxSpeed = 1f;              // Максимальная линейная скорость
+    public float wheelRotationSpeed = 360f;  // Визуальная скорость вращения колёс (град/сек)
+
+    [Header("References")]
+    public Transform frontAxle;
+    public Transform rearAxle;
 
     private Rigidbody rb;
     private PlayerInput _playerInput;
@@ -65,6 +70,24 @@ public class CarController : MonoBehaviour
             float torqueAmount = turnInput * turnTorque * direction * speedFactor;
 
             rb.AddTorque(Vector3.up * torqueAmount, ForceMode.VelocityChange);
+        }
+
+        // Вращение осей по локальной оси Y
+        RotateAxles(movementDirection, speed);
+    }
+
+    private void RotateAxles(float movementDirection, float speed)
+    {
+        float rotationAmount = speed * wheelRotationSpeed * Time.fixedDeltaTime;
+
+        if (rearAxle != null)
+        {
+            rearAxle.Rotate(Vector3.right, rotationAmount, Space.Self);
+        }
+
+        if (frontAxle != null)
+        {
+            frontAxle.Rotate(Vector3.right, rotationAmount, Space.Self);
         }
     }
 }
