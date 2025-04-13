@@ -624,8 +624,8 @@ MonoBehaviour:
       Radius: 4
       Height: 2.25
     Bottom:
-      Radius: 2.5
-      Height: 0.1
+      Radius: 0.5
+      Height: -0.5
     SplineCurvature: 0.5
   RecenteringTarget: 2
   HorizontalAxis:
@@ -639,7 +639,7 @@ MonoBehaviour:
       Time: 2
     Restrictions: 0
   VerticalAxis:
-    Value: 17.5
+    Value: 7
     Center: 17.5
     Range: {x: -10, y: 45}
     Wrap: 0
@@ -709,8 +709,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 960344243}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.25340134, y: -0.0000000026513371, z: -5.3642224e-10, w: 0.9673613}
-  m_LocalPosition: {x: 35.87145, y: 4.414, z: 11.816929}
+  m_LocalRotation: {x: 0.15452662, y: -0.0000000034754335, z: 5.435758e-10, w: 0.98798865}
+  m_LocalPosition: {x: 35.87145, y: 3.1271625, z: 12.81319}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1190,8 +1190,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1858031817}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.25340134, y: -0.0000000029975398, z: 7.852089e-10, w: 0.9673613}
-  m_LocalPosition: {x: 36.98145, y: 4.414, z: 11.816929}
+  m_LocalRotation: {x: 0.15452662, y: -0.0000000034754333, z: 5.4357613e-10, w: 0.98798865}
+  m_LocalPosition: {x: 36.98145, y: 3.1271625, z: 12.81319}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1281,7 +1281,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxStudyDistance: 5
-  _rigidbody: {fileID: 1976058736}
+  _rigidbodies: []
   _physicsMovementController: {fileID: 1976058735}
 --- !u!65 &1976058738
 BoxCollider:
@@ -1750,7 +1750,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxStudyDistance: 5
-  _rigidbody: {fileID: 2136896272}
+  _rigidbodies: []
   _physicsMovementController: {fileID: 2136896278}
 --- !u!65 &2136896274
 BoxCollider:

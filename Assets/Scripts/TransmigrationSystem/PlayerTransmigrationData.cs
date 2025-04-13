@@ -27,6 +27,7 @@ namespace TransmigrationSystem
 
         public PlayerController PlayerController => _playerController;
         public Transform CurrentTransform => _currentTransform;
+        public bool IsInPlayer => _isInPlayer;
         
         public GameObject ActiveObject
         {
@@ -46,6 +47,7 @@ namespace TransmigrationSystem
         {
             _currentTransform = initialTransform;
             _cnCamera = cnCamera;
+            _isInPlayer = true;
         }
 
         private void CancelCurrentOperation()
@@ -69,7 +71,11 @@ namespace TransmigrationSystem
                     {
                         rb.isKinematic = false;
                     }
-
+                    
+                    _playerController.gameObject.SetActive(false);
+                    _currentTransform = _activeObject.transform;
+                    _isInPlayer = false;
+                    
                     // Перемещаем игрока к объекту
                     _currentTween = _playerController.transform.DOMove(
                         _activeObject.transform.position, 
@@ -83,8 +89,7 @@ namespace TransmigrationSystem
                     })
                     .OnComplete(() =>
                     {
-                        _playerController.gameObject.SetActive(false);
-                        _currentTransform = _activeObject.transform;
+                        
                         _cnCamera.Target.TrackingTarget = _currentTransform;
                     });
                     
@@ -118,6 +123,11 @@ namespace TransmigrationSystem
                 {
                     rb.isKinematic = true;
                 }
+                
+                _currentTransform = _playerController.gameObject.transform;
+                _cnCamera.Target.TrackingTarget = _currentTransform;
+                _activeObject.GetComponent<InteractiveObject>().Activate(false);
+                _isInPlayer = true;
 
                 // Мгновенное перемещение игрока к объекту
                 _playerController.transform.position = _activeObject.transform.position;
@@ -132,9 +142,6 @@ namespace TransmigrationSystem
                     .AsUniTask()
                     .AttachExternalCancellation(_cts.Token);
                 
-                _currentTransform = _playerController.gameObject.transform;
-                _cnCamera.Target.TrackingTarget = _currentTransform;
-                _activeObject.GetComponent<InteractiveObject>().Activate(false);
                 _activeObject = null;
             }
             catch (OperationCanceledException)

@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace TransmigrationSystem
@@ -7,7 +7,7 @@ namespace TransmigrationSystem
     {
         [SerializeField] private float _maxStudyDistance = 5f;
     
-        [SerializeField] private Rigidbody _rigidbody;
+        [SerializeField] private List<Rigidbody> _rigidbodies = new List<Rigidbody>();
         [SerializeField] private InteractiveObjectMovement _physicsMovementController;
         
         private bool _active = false;
@@ -15,15 +15,27 @@ namespace TransmigrationSystem
 
         private void Start()
         {
+            if (_rigidbodies == null || _rigidbodies.Count == 0)
+            {
+                _rigidbodies = new List<Rigidbody>(GetComponentsInChildren<Rigidbody>(true));
+            }
+            
             Activate(false);
         }
 
         public void Activate(bool activate)
         {
             _active = activate;
-            _rigidbody.isKinematic = !activate;
+            
+            foreach (var rb in _rigidbodies)
+            {
+                if (rb != null)
+                {
+                    rb.isKinematic = !activate;
+                }
+            }
+            
             _physicsMovementController.enabled = activate;
         }
-        
     }
 }
