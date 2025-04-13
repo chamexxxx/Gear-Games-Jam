@@ -6,6 +6,13 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class CarController : MovableObject
 {
+    [Header("Audio")]
+    public AudioSource idleAudioSource;
+    public AudioSource engineAudioSource;
+    public float minEnginePitch = 1.0f;
+    public float maxEnginePitch = 2.0f;
+    public float speedThreshold = 0.1f; // минимальная скорость, чтобы считалось «движением»
+
     [Header("Settings")]
     public float moveForce = 150f;
     public float turnTorque = 5f;
@@ -37,6 +44,20 @@ public class CarController : MovableObject
         else
         {
             _playerInput = gameManager.PlayerInput;
+        }
+
+        // Запустить холостой ход, если задан
+        if (idleAudioSource != null && !idleAudioSource.isPlaying)
+        {
+            idleAudioSource.loop = true;
+            idleAudioSource.Play();
+        }
+
+        if (engineAudioSource != null)
+        {
+            engineAudioSource.loop = true;
+            engineAudioSource.Play();
+            engineAudioSource.volume = 0f; // сначала не слышно
         }
     }
 
@@ -74,6 +95,35 @@ public class CarController : MovableObject
 
         // Вращение осей по локальной оси Y
         RotateAxles(movementDirection, speed);
+        
+        float normalizedSpeed = Mathf.Clamp01(rb.linearVelocity.magnitude / maxSpeed);
+
+        if (normalizedSpeed > speedThreshold)
+        {
+            engineAudioSource.volume = 1f;
+            engineAudioSource.pitch = Mathf.Lerp(minEnginePitch, maxEnginePitch, normalizedSpeed);
+        }
+        else
+        {
+            engineAudioSource.volume = 0f;
+        }
+    }
+
+    private void Update()
+    {
+        if (idleAudioSource != null && engineAudioSource != null)
+        {
+            float normalizedSpeed = Mathf.Clamp01(rb.linearVelocity.magnitude / maxSpeed);
+
+            bool isMoving = normalizedSpeed > speedThreshold;
+
+            // Управляем idle звуком
+            idleAudioSource.volume = isMoving ? 0f : 1f;
+
+            // Управляем звуком движения
+            engineAudioSource.volume = isMoving ? 1f : 0f;
+            engineAudioSource.pitch = Mathf.Lerp(minEnginePitch, maxEnginePitch, normalizedSpeed);
+        }
     }
 
     private void RotateAxles(float movementDirection, float speed)
