@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace TransmigrationSystem
 {
@@ -7,14 +8,22 @@ namespace TransmigrationSystem
         [SerializeField] private float _maxStudyDistance = 5f;
     
         [SerializeField] private Rigidbody _rigidbody;
+        [SerializeField] private InteractiveObjectMovement _physicsMovementController;
         
-        public bool Active = false;
+        private bool _active = false;
+        public bool Active => _active;
 
+        private void Start()
+        {
+            Activate(false);
+        }
 
         public void Activate(bool activate)
         {
-            Active = activate;
+            _active = activate;
             _rigidbody.isKinematic = !activate;
+            _physicsMovementController.enabled = activate;
         }
+        
     }
 }
