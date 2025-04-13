@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 
 namespace TransmigrationSystem
@@ -8,7 +9,7 @@ namespace TransmigrationSystem
         [SerializeField] private float _maxStudyDistance = 5f;
     
         [SerializeField] private List<Rigidbody> _rigidbodies = new List<Rigidbody>();
-        [SerializeField] private InteractiveObjectMovement _physicsMovementController;
+        [SerializeField] [CanBeNull] private InteractiveObjectMovement _physicsMovementController;
         
         private bool _active = false;
         public bool Active => _active;
@@ -34,8 +35,11 @@ namespace TransmigrationSystem
                     rb.isKinematic = !activate;
                 }
             }
-            
-            _physicsMovementController.enabled = activate;
+
+            if (_physicsMovementController != null)
+            {
+                _physicsMovementController.enabled = activate;
+            }
         }
     }
 }

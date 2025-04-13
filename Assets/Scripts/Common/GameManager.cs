@@ -82,7 +82,10 @@ namespace Common
             }
             else
             {
-                player.ActiveObject.GetComponent<InteractiveObjectMovement>().enabled = true;
+                if (player.ActiveObject.TryGetComponent(out InteractiveObjectMovement movement))
+                {
+                    movement.enabled = true;
+                }  
             }
         }
 
