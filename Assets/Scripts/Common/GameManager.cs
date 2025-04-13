@@ -50,6 +50,11 @@ namespace Common
         {
             if (_uiController.CurrentObject != null)
             {
+                /*if (!_characters[_currentIndex].IsInPlayer && _uiController.CurrentObject == _characters[_currentIndex].ActiveObject.GetComponent<InteractiveObject>())
+                {
+                    _characters[_currentIndex].ReturnToCharacter();
+                }*/
+                
                 if (!_uiController.CurrentObject.Active && _characters[_currentIndex].IsInPlayer)
                 {
                     _characters[_currentIndex].ActiveObject = _uiController.CurrentObject.gameObject;

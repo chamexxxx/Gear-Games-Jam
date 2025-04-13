@@ -7,8 +7,6 @@ namespace TransmigrationSystem
 {
     public class InteractiveObject : MonoBehaviour
     {
-        [SerializeField] private float _maxStudyDistance = 5f;
-    
         [SerializeField] private List<Rigidbody> _rigidbodies = new List<Rigidbody>();
         [SerializeField] [CanBeNull] private MovableObject _physicsMovementController;
         
