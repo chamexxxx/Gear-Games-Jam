@@ -36,7 +36,7 @@ public class CarController : MonoBehaviour
         }
         else
         {
-            _playerInput = gameManager.GetPlayerInput();
+            _playerInput = gameManager.PlayerInput;
         }
     }
 
