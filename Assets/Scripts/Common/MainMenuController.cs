@@ -16,7 +16,7 @@ public class MainMenuController : MonoBehaviour
 
     private void OnStartGameButtonClicked()
     {
-        SceneManager.LoadScene("MainScene", LoadSceneMode.Single);
+        SceneManager.LoadScene("MainScenePlayers", LoadSceneMode.Single);
     }
     
     private void OnCloseGameButtonClicked()
