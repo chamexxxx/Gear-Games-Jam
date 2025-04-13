@@ -14,9 +14,9 @@ namespace TransmigrationSystem
         [SerializeField] private float _maxSpeed = 5f;
 
         [Header("References")] 
-        [SerializeField] private Transform _groundCheckPoint;
-        [SerializeField] private Camera _playerCamera;
-        [SerializeField] private PlayerInput _playerInput;
+        private Transform _groundCheckPoint;
+        private Camera _playerCamera;
+        private PlayerInput _playerInput;
 
         private Rigidbody _rb;
         private bool _isGrounded;
