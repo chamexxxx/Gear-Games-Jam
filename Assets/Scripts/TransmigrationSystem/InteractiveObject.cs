@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Common;
 using JetBrains.Annotations;
 using UnityEngine;
 
@@ -9,7 +10,7 @@ namespace TransmigrationSystem
         [SerializeField] private float _maxStudyDistance = 5f;
     
         [SerializeField] private List<Rigidbody> _rigidbodies = new List<Rigidbody>();
-        [SerializeField] [CanBeNull] private InteractiveObjectMovement _physicsMovementController;
+        [SerializeField] [CanBeNull] private MovableObject _physicsMovementController;
         
         private bool _active = false;
         public bool Active => _active;

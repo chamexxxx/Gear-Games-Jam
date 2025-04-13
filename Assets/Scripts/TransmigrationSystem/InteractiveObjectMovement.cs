@@ -1,10 +1,11 @@
-﻿using UnityEngine;
+﻿using Common;
+using UnityEngine;
 using Player;
 
 namespace TransmigrationSystem
 {
     [RequireComponent(typeof(Rigidbody))]
-    public class InteractiveObjectMovement : MonoBehaviour
+    public class InteractiveObjectMovement :  MovableObject
     {
         [Header("Movement Settings")] 
         [SerializeField] private float _moveForce = 50f;

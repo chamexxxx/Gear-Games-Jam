@@ -4,7 +4,7 @@ using Player;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class CarController : MonoBehaviour
+public class CarController : MovableObject
 {
     [Header("Settings")]
     public float moveForce = 150f;
